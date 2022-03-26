@@ -35,9 +35,12 @@ int main(int argc, char** argv) {
 	if (cmdOptionExists(argv, argc, CMD_LAPLACIAN))
 	{
 		cvtColor(image, image, COLOR_BGR2GRAY);
-		detectByLaplace(image, output, LAPLACIAN_FILTER::FILTER_3x3, -1);
+		// Apply 3x3 gaussian filter with sigma=0.7
+		/*vector<vector<float>> gFilter = generateGaussianFilter(3, 0.7);
+		image = conv(image, gFilter, -1, 1);*/
+		detectByLaplace(image, output, LAPLACIAN_FILTER::FILTER_3x3, 0);
 	}
-	
+
 	if (cmdOptionExists(argv, argc, CMD_OUTPUT))
 	{
 		char* outputPath = getCmdOption(argv, argc, CMD_OUTPUT);
