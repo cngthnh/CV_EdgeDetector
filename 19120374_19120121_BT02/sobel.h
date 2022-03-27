@@ -1,17 +1,11 @@
 #pragma once
-#include<iostream>
-#include<cmath>
-#include<opencv2/imgproc/imgproc.hpp>
-#include<opencv2/highgui/highgui.hpp>
 #include "Utils.h"
 
-using namespace std;
-using namespace cv;
 
 enum SOBEL_FILTER {
-	FILTER_3x3 = 0,
-	FILTER_5x5 = 1
+	SOBEL_FILTER_3x3 = 0,
+	SOBEL_FILTER_5x5 = 1
 };
 
-int xGradient(Mat image, int x, int y);
-int yGradient(Mat image, int x, int y);
+int detectBySobel(Mat src, Mat& des, int filter, int padding = -1, int stride = 1);
+Mat convSobel(Mat& image, vector<vector<char>>& x_mask, vector<vector<char>>& y_mask, int padding, int stride);
