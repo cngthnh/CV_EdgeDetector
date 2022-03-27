@@ -24,12 +24,24 @@
     <ClCompile Include="Laplacian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sobel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Prewitt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Laplacian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sobel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Prewitt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

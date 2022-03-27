@@ -1,28 +1,29 @@
-#include "Sobel.h"
+#include "Prewitt.h"
+
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
-vector<vector<char>> y_filter3x3 = { {-1,0,1},{-2,0,2},{-1,0,1} };
-vector<vector<char>> x_filter3x3 = { {1,2,1},{0,0,0},{-1,-2,-1} };
-vector<vector<char>> y_filter5x5 = { {2,2,4,2,2}, {1,1,2,1,1},{0,0,0,0,0},{-1,-1,-2,-1,-1},{-2,-2,-4,-2,-2} };
-vector<vector<char>> x_filter5x5 = { {2,1,0,-1,-2}, {2,1,0,-1,-2},{4,2,0,-2,-4},{2,1,0,-1,-2},{2,1,0,-1,-2} };
+vector<vector<char>> filter3x3_y = { {-1,0,1},{-1,0,1},{-1,0,1} };
+vector<vector<char>> filter3x3_x = { {-1,-1,-1},{0,0,0},{1,1,1} };
+vector<vector<char>> filter5x5_x = { {9,9,9,9,9}, {9,5,5,5,9},{-7,-3,0,-3,-7},{-7,-3,-3,-3,-7},{-7,-7,-7,-7,-7} };
+vector<vector<char>> filter5x5_y = { {9,9,-7,-7,-7}, {9,5,-3,-3,-7},{9,5,0,-3,-7},{9,5,-3,-3,-7},{9,9,-7,-7,-7} };
 
-int detectBySobel(Mat src, Mat& des, int filter, int padding, int stride)
+int detectByPrewitt(Mat src, Mat& des, int filter, int padding, int stride)
 {
 	switch (filter)
 	{
-	case SOBEL_FILTER::SOBEL_FILTER_3x3:
-		des = convSobel(src, x_filter3x3, y_filter3x3, padding, stride);
+	case PREWITT_FILTER::PREWITT_FILTER_3x3:
+		des = convPrewitt(src, filter3x3_x, filter3x3_y, padding, stride);
 		break;
-	case SOBEL_FILTER::SOBEL_FILTER_5x5:
-		des = convSobel(src, x_filter5x5, y_filter5x5, padding, stride);
+	case PREWITT_FILTER::PREWITT_FILTER_5x5:
+		des = convPrewitt(src, filter5x5_x, filter5x5_y, padding, stride);
 		break;
 	}
 	return 1;
 }
 
-
-Mat convSobel(Mat& image, vector<vector<char>>&x_mask, vector<vector<char>>& y_mask, int padding, int stride) {
+Mat convPrewitt(Mat& image, vector<vector<char>>& x_mask, vector<vector<char>>& y_mask, int padding, int stride)
+{
 	Mat result;
 	Mat result_x_gradient;
 	Mat result_y_gradient;
