@@ -9,6 +9,8 @@ using namespace std;
 using namespace cv;
 
 
+
+
 char* getCmdOption(char** argv, int argc, const char* option);
 bool cmdOptionExists(char** argv, int argc, const char* option);
 vector<vector<float>> generateGaussianFilter(int size, float sigma);
