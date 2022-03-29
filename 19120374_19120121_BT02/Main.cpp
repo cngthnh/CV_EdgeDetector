@@ -5,11 +5,13 @@
 #include "Laplacian.h"
 #include "Sobel.h"
 #include "Prewitt.h"
+#include "Canny.h"
 
 #define CMD_LAPLACIAN "-l"
 #define CMD_SOBEL "-s"
 #define CMD_PREWITT "-p"
 #define CMD_OUTPUT "-o"
+#define CMD_CANNY "-c"
 
 
 int main(int argc, char** argv) {
@@ -36,23 +38,23 @@ int main(int argc, char** argv) {
 	imshow("Original Image: " + fileName, image);
 
 	Mat output;
+	if (image.type() == CV_8UC3)
+		cvtColor(image, image, COLOR_BGR2GRAY);
 	if (cmdOptionExists(argv, argc, CMD_LAPLACIAN))
 	{
-		cvtColor(image, image, COLOR_BGR2GRAY);
-		// Apply 3x3 gaussian filter with sigma=0.7
-		/*vector<vector<float>> gFilter = generateGaussianFilter(3, 0.7);
-		image = conv(image, gFilter, -1, 1);*/
 		detectByLaplace(image, output, LAPLACIAN_FILTER::FILTER_3x3, 0);
 	}
 	else if (cmdOptionExists(argv, argc, CMD_SOBEL))
 	{
-		cvtColor(image, image, COLOR_BGR2GRAY);
 		detectBySobel(image, output, SOBEL_FILTER::SOBEL_FILTER_3x3);
 	}
 	else if (cmdOptionExists(argv, argc, CMD_PREWITT))
 	{
-		cvtColor(image, image, COLOR_BGR2GRAY);
 		detectByPrewitt(image, output, PREWITT_FILTER::PREWITT_FILTER_3x3);
+	}
+	else if (cmdOptionExists(argv, argc, CMD_CANNY))
+	{
+		detectByCanny(image, output, 10, 65, CANNY_OPERATOR::PREWITT_OPERATOR, -1, 1, 5.4, 5);
 	}
 
 	if (cmdOptionExists(argv, argc, CMD_OUTPUT))

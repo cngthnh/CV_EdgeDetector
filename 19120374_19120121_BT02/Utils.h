@@ -17,6 +17,9 @@ char* getCmdOption(char** argv, int argc, const char* option);
 bool cmdOptionExists(char** argv, int argc, const char* option);
 vector<vector<float>> generateGaussianFilter(int size, float sigma);
 
+Mat calcGrad(Mat xGrad, Mat yGrad);
+vector<vector<uchar>> calcDirection(Mat xGrad, Mat yGrad);
+
 template <class T>
 int applyKernel(Mat& image, vector<vector<T>>& kernel, int startX, int startY) {
 	int sum = 0;

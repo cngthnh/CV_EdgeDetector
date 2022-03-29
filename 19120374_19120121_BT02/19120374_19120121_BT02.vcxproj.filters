@@ -30,6 +30,9 @@
     <ClCompile Include="Prewitt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Canny.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Prewitt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Canny.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

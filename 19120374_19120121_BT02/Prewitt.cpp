@@ -3,21 +3,20 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
-// cac mask filter theo ti le 3x3 va 5x5
-vector<vector<char>> filter3x3_y = { {-1,0,1},{-1,0,1},{-1,0,1} }; 
-vector<vector<char>> filter3x3_x = { {-1,-1,-1},{0,0,0},{1,1,1} };
-vector<vector<char>> filter5x5_x = { {9,9,9,9,9}, {9,5,5,5,9},{-7,-3,0,-3,-7},{-7,-3,-3,-3,-7},{-7,-7,-7,-7,-7} };
-vector<vector<char>> filter5x5_y = { {9,9,-7,-7,-7}, {9,5,-3,-3,-7},{9,5,0,-3,-7},{9,5,-3,-3,-7},{9,9,-7,-7,-7} };
+vector<vector<char>> prewitt_filter3x3_x = { {-1,0,1},{-1,0,1},{-1,0,1} };
+vector<vector<char>> prewitt_filter3x3_y = { {-1,-1,-1},{0,0,0},{1,1,1} };
+vector<vector<char>> prewitt_filter5x5_x = { {9,9,9,9,9}, {9,5,5,5,9},{-7,-3,0,-3,-7},{-7,-3,-3,-3,-7},{-7,-7,-7,-7,-7} };
+vector<vector<char>> prewitt_filter5x5_y = { {9,9,-7,-7,-7}, {9,5,-3,-3,-7},{9,5,0,-3,-7},{9,5,-3,-3,-7},{9,9,-7,-7,-7} };
 
 int detectByPrewitt(Mat src, Mat& des, int filter, int padding, int stride)
 {
 	switch (filter) // check xem nguoi dung muon  tich ma tran nao
 	{
 	case PREWITT_FILTER::PREWITT_FILTER_3x3:
-		des = convPrewitt(src, filter3x3_x, filter3x3_y, padding, stride);
+		des = convPrewitt(src, prewitt_filter3x3_x, prewitt_filter3x3_y, padding, stride);
 		break;
 	case PREWITT_FILTER::PREWITT_FILTER_5x5:
-		des = convPrewitt(src, filter5x5_x, filter5x5_y, padding, stride);
+		des = convPrewitt(src, prewitt_filter5x5_x, prewitt_filter5x5_y, padding, stride);
 		break;
 	}
 	return 1;
