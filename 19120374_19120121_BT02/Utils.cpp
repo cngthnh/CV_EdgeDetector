@@ -23,21 +23,7 @@ bool cmdOptionExists(char** argv, int argc, const char* option)
 	return false;
 }
 
-Mat calcGrad(Mat xGrad, Mat yGrad)
-{
-	Mat result = Mat::zeros(xGrad.size().height, xGrad.size().width, CV_8UC1);
-	if (xGrad.size() != yGrad.size())
-	{
-		return result;
-	}
-	for (int y = 0; y < xGrad.rows; ++y)
-	{
-		for (int x = 0; x < xGrad.cols; ++x)
-			result.at<uchar>(y, x) = sqrt(pow(xGrad.at<uchar>(y, x), 2) + pow(yGrad.at<uchar>(y, x), 2));
-	}
-	return result;
-}
-
+// Hàm tính toán hướng gradient và làm tròn về các mốc 0, 45, 90, 135
 vector<vector<uchar>> calcDirection(Mat xGrad, Mat yGrad)
 {
 	vector<vector<uchar>> result;
@@ -72,6 +58,7 @@ vector<vector<uchar>> calcDirection(Mat xGrad, Mat yGrad)
 	return result;
 }
 
+// Tạo bộ lọc Gauss với kích thước và sigma truyền vào
 vector<vector<float>> generateGaussianFilter(int size, float sigma)
 {
 	vector<vector<float>> filter;

@@ -1,7 +1,7 @@
 #include "Canny.h"
 #include "opencv2/highgui/highgui.hpp"
 
-int detectByCanny(Mat src, Mat& des, int lowerThreshold, int upperThreshold, int opr, int padding, int stride, 
+int detectByCanny(Mat src, Mat& des, int opr, int padding, int stride, int lowerThreshold, int upperThreshold,
 	float gaussianBlurSigma, int gaussianKernelSize)
 {
 	// Apply gaussian blur
@@ -21,7 +21,7 @@ int detectByCanny(Mat src, Mat& des, int lowerThreshold, int upperThreshold, int
 		break;
 	}
 
-	grad = calcGrad(xGrad, yGrad);
+	grad = xGrad + yGrad;
 	directions = calcDirection(xGrad, yGrad);
 	nonMaxSuppression(grad, directions);
 	hysteresis(grad, lowerThreshold, upperThreshold);

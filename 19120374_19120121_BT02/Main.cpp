@@ -7,11 +7,14 @@
 #include "Prewitt.h"
 #include "Canny.h"
 
-#define CMD_LAPLACIAN "-l"
-#define CMD_SOBEL "-s"
-#define CMD_PREWITT "-p"
+#define CMD_LAPLACIAN "--l"
+#define CMD_SOBEL "--s"
+#define CMD_PREWITT "--p"
 #define CMD_OUTPUT "-o"
-#define CMD_CANNY "-c"
+#define CMD_CANNY "--c"
+#define CMD_SIGMA "-sigma"
+#define CMD_LTHRESHOLD "-low_threshold"
+#define CMD_HTHRESHOLD "-high_threshold"
 
 
 int main(int argc, char** argv) {
@@ -34,15 +37,18 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
+	// Hiển thị ảnh gốc
 	namedWindow("Original Image: " + fileName, WINDOW_AUTOSIZE);
 	imshow("Original Image: " + fileName, image);
 
 	Mat output;
 	if (image.type() == CV_8UC3)
 		cvtColor(image, image, COLOR_BGR2GRAY);
+
+	// Driver
 	if (cmdOptionExists(argv, argc, CMD_LAPLACIAN))
 	{
-		detectByLaplace(image, output, LAPLACIAN_FILTER::FILTER_3x3, 0);
+		detectByLaplace(image, output, LAPLACIAN_FILTER::FILTER_3x3);
 	}
 	else if (cmdOptionExists(argv, argc, CMD_SOBEL))
 	{
@@ -54,10 +60,30 @@ int main(int argc, char** argv) {
 	}
 	else if (cmdOptionExists(argv, argc, CMD_CANNY))
 	{
-		detectByCanny(image, output, 10, 65, CANNY_OPERATOR::PREWITT_OPERATOR, -1, 1, 5.4, 5);
+		// Đọc các tham số, nếu không được truyền vào thì khởi tạo mặc định
+		int lowerThreshold, upperThreshold;
+		float sigma;
+
+		if (cmdOptionExists(argv, argc, CMD_SIGMA))
+			sigma = atof(getCmdOption(argv, argc, CMD_SIGMA));
+		else
+			sigma = 1.4;
+
+		if (cmdOptionExists(argv, argc, CMD_LTHRESHOLD))
+			lowerThreshold = atoi(getCmdOption(argv, argc, CMD_LTHRESHOLD));
+		else
+			lowerThreshold = 20;
+		
+		if (cmdOptionExists(argv, argc, CMD_HTHRESHOLD))
+			upperThreshold = atoi(getCmdOption(argv, argc, CMD_HTHRESHOLD));
+		else
+			upperThreshold = 100;
+
+		detectByCanny(image, output, CANNY_OPERATOR::SOBEL_OPERATOR, -1, 1, lowerThreshold, upperThreshold, sigma, 5);
 	}
 
-	if (cmdOptionExists(argv, argc, CMD_OUTPUT))
+	// Ghi file kết quả nếu có tham số output path
+	if (cmdOptionExists(argv, argc, CMD_OUTPUT) && (!output.empty()))
 	{
 		char* outputPath = getCmdOption(argv, argc, CMD_OUTPUT);
 		if (outputPath != NULL)
@@ -69,7 +95,10 @@ int main(int argc, char** argv) {
 			cout << "Output path does not exist\n";
 		}
 	}
-	namedWindow("Processed Image: " + fileName, WINDOW_AUTOSIZE);
-	imshow("Processed Image: " + fileName, output);
-	waitKey(0);
+	if (!output.empty())
+	{
+		namedWindow("Processed Image: " + fileName, WINDOW_AUTOSIZE);
+		imshow("Processed Image: " + fileName, output);
+		waitKey(0);
+	}
 }

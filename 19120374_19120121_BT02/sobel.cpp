@@ -1,15 +1,15 @@
-#include "Sobel.h"
+﻿#include "Sobel.h"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
-vector<vector<char>> sobel_filter3x3_y = { {-1,0,1},{-2,0,2},{-1,0,1} };
-vector<vector<char>> sobel_filter3x3_x = { {1,2,1},{0,0,0},{-1,-2,-1} };
-vector<vector<char>> sobel_filter5x5_y = { {2,2,4,2,2}, {1,1,2,1,1},{0,0,0,0,0},{-1,-1,-2,-1,-1},{-2,-2,-4,-2,-2} };
-vector<vector<char>> sobel_filter5x5_x = { {2,1,0,-1,-2}, {2,1,0,-1,-2},{4,2,0,-2,-4},{2,1,0,-1,-2},{2,1,0,-1,-2} };
+vector<vector<char>> sobel_filter3x3_x = { {-1,0,1},{-2,0,2},{-1,0,1} };
+vector<vector<char>> sobel_filter3x3_y = { {1,2,1},{0,0,0},{-1,-2,-1} };
+vector<vector<char>> sobel_filter5x5_x = { {2,2,4,2,2}, {1,1,2,1,1},{0,0,0,0,0},{-1,-1,-2,-1,-1},{-2,-2,-4,-2,-2} };
+vector<vector<char>> sobel_filter5x5_y = { {2,1,0,-1,-2}, {2,1,0,-1,-2},{4,2,0,-2,-4},{2,1,0,-1,-2},{2,1,0,-1,-2} };
 
 int detectBySobel(Mat src, Mat& des, int filter, int padding, int stride)
 {
-	switch (filter)  // cho nguoi dung chon tich chap
+	switch (filter)  // cho nguoi dung chon bo loc
 	{
 	case SOBEL_FILTER::SOBEL_FILTER_3x3:
 		des = convSobel(src, sobel_filter3x3_x, sobel_filter3x3_y, padding, stride);
@@ -27,6 +27,7 @@ Mat convSobel(Mat& image, vector<vector<char>>&x_mask, vector<vector<char>>& y_m
 	Mat result_x_gradient;
 	Mat result_y_gradient;
 	
+	// tính grad theo 2 phương x và y rồi lấy tổng
 	result_x_gradient = conv(image, x_mask, padding, stride);
 	result_y_gradient = conv(image, y_mask, padding, stride);
 	result = result_x_gradient + result_y_gradient;

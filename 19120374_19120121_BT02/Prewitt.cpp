@@ -30,7 +30,7 @@ Mat convPrewitt(Mat& image, vector<vector<char>>& x_mask, vector<vector<char>>& 
 
 	result_x_gradient = conv(image, x_mask, padding, stride);
 	result_y_gradient = conv(image, y_mask, padding, stride);
-	result = result_x_gradient + result_y_gradient;  // tong 2 dao ham lai
+	result = result_x_gradient + result_y_gradient;  // tong 2 grad
 	imshow("x_gradient", result_x_gradient);
 	imshow("y_gradient", result_y_gradient);
 	return result;
