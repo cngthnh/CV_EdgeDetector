@@ -54,10 +54,10 @@ Mat conv(Mat& image, vector<vector<T>>& kernel, int padding, int stride) {
 	}
 	else
 	{
-		copyMakeBorder(image, pad_image, padding, padding, padding, padding, BORDER_CONSTANT, (255, 255, 255));
+		copyMakeBorder(image, pad_image, padding, padding, padding, padding, BORDER_DEFAULT);
 	}
 
-	result = Mat::zeros((pad_image.rows - kernel.size()) / stride + 1, (pad_image.rows - kernel[0].size()) / stride + 1, CV_8UC1);
+	result = Mat::zeros((pad_image.rows - kernel.size()) / stride + 1, (pad_image.cols - kernel[0].size()) / stride + 1, CV_8UC1);
 	for (int y = 0; y < ceil((pad_image.rows - kernel.size()) / stride); ++y)
 	{
 		for (int x = 0; x < ceil(pad_image.cols - kernel[0].size() / stride); ++x)
